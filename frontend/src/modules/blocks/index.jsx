@@ -1,9 +1,10 @@
-import Layout from '../../layout'
+import { Typography } from "@material-ui/core";
+import Layout from "../../layout";
 
 export default function Blocks() {
-    return (
-        <Layout>
-            Teste
-        </Layout>
-    )
+  return (
+    <Layout>
+      <Typography>Blocks</Typography>
+    </Layout>
+  );
 }

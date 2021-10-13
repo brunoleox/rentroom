@@ -24,29 +24,29 @@ import {
   AccountCircle,
   ExitToApp,
 } from "@material-ui/icons";
-import { BrowserRouter, Link, Switch, Router } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const headersData = [
   {
     label: "Salas",
-    href: "/rooms",
+    to: "/rooms",
     icon: <MeetingRoom />,
   },
   {
     label: "Blocos",
-    href: "/blocks",
+    to: "/blocks",
     icon: <ViewModule />,
   },
   {
     label: "Minha Conta",
-    href: "/account",
+    to: "/account",
     icon: <AccountCircle />,
   },
   {
     label: "Sair",
-    href: "/logout",
+    to: "/logout",
     icon: <ExitToApp />,
   },
 ];
@@ -150,8 +150,8 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {headersData.map(({ label, icon, href }) => (
-            <ListItem button key={label} {...{ to: href, component: Link }}>
+          {headersData.map(({ label, icon, to }) => (
+            <ListItem button key={label} {...{ to: to, component: Link }}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={label} />
             </ListItem>
