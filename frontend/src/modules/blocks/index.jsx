@@ -14,15 +14,14 @@ import {
   Paper,
 } from "@material-ui/core";
 import { Add, Delete, Edit } from "@material-ui/icons";
-import axios from "axios"
-
+import axios from "axios";
 
 async function blocks(data) {
   try {
     let res = await axios({
-      method: 'get',
-      url: 'http://localhost:3000/blocks',
-      data: blocks
+      method: "get",
+      url: "http://localhost:3000/blocks",
+      data: blocks,
     });
 
     let data = res.data;
@@ -54,23 +53,21 @@ export default function Blocks() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((blocks) => (
-              <TableRow key={blocks.id}>
+            {blocks.map((block) => (
+              <TableRow key={block.id}>
                 <TableCell component="th" scope="row">
-                  {blocks.name}
+                  {block.name}
                 </TableCell>
                 <TableCell>
                   <IconButton
                     aria-label="delete"
-                    onClick={() => axios.delete("http://localhost:3000/blocks" +  )}
+                    onClick={() =>
+                      axios.delete("http://localhost:3000/blocks" + block.id)
+                    }
                   >
                     <Delete />
                   </IconButton>
-                  <Link href={`/customers/edit/${row.id}`} passHref>
-                    <IconButton aria-label="edit">
-                      <Edit />
-                    </IconButton>
-                  </Link>
+                  <IconButton aria-label="edit"></IconButton>
                 </TableCell>
               </TableRow>
             ))}

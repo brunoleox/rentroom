@@ -1,10 +1,11 @@
-import Layout from "../../layout";
-import { Typography } from '@material-ui/core'
+// import Layout from "../../layout";
+import { Typography } from "@material-ui/core";
 
 export default function Rooms() {
   return (
-    <Layout>
-      <Typography>Rooms</Typography>
-    </Layout>
+    
+      <Typography variant="h6" variantMapping="h1">
+        Rooms
+      </Typography>
   );
 }
