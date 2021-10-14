@@ -24,7 +24,8 @@ import {
   AccountCircle,
   ExitToApp,
 } from "@material-ui/icons";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -96,7 +97,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "space-between",
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
 
@@ -151,14 +152,23 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
           {headersData.map(({ label, icon, to }) => (
-            <ListItem button key={label} {...{ to: to, component: Link }}>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={label} />
-            </ListItem>
+           
+              <ListItem
+                button={true}
+                key={label}
+                {...{ to, component: Link }}
+              >
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={label} />
+              </ListItem>
           ))}
         </List>
         <Divider />
       </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+        {props.children}
+      </Main>
     </Box>
   );
 }
