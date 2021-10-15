@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export default function ConfirmationDialog(props) {
+export function ConfirmationDialog(props) {
     const {
       children,
       open,
@@ -40,7 +40,7 @@ export default function ConfirmationDialog(props) {
             {cancelButtonText || 'Cancelar'}
           </Button>
           <Button onClick={handleOk} color="primary">
-            {confirmButtonText || 'Ok'}
+            {confirmButtonText || 'Confirmar'}
           </Button>
         </DialogActions>
       </Dialog>

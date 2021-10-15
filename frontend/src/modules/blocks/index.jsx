@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Button,
+  Alert,
+  AlertTitle,
   Divider,
   Fab,
   IconButton,
@@ -13,27 +14,46 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import { ConfirmationDialog } from "../../components/confirmationDialog";
 import { Add, Delete, Edit } from "@material-ui/icons";
 import axios from "axios";
 
-async function blocks(data) {
-  try {
-    let res = await axios({
-      method: "get",
-      url: "http://localhost:3000/blocks",
-      data: blocks,
-    });
-
-    let data = res.data;
-    return data;
-  } catch (error) {
-    console.log(error.response); // this is the main part. Use the response property from the error object
-
-    return error.response;
-  }
-}
+const url = "http://localhost:3000/blocks/";
 
 export default function Blocks() {
+  const [blocks, setBlocks] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(url)
+      .then(({ data }) => {
+        setBlocks(data);
+      })
+      .catch((err) => {});
+  }, []);
+
+  const [deleteOptions, setDeleteOptions] = useState({});
+
+  const handleDelete = (item) => {
+    setDeleteOptions({
+      show: true,
+      itemId: item.id,
+      itemDescription: item.name,
+    });
+  };
+
+  const handleDeleteCallBack = (value) => {
+    const { itemId } = deleteOptions;
+    setDeleteOptions({ show: false, itemId: null, itemDescription: null });
+
+    if (value === "Confirmar") {
+      try {
+        axios.delete(url + itemId);
+        console.log(itemId);
+      } catch (error) {}
+    }
+  };
+
   return (
     <>
       <Typography variant="h6" variantMapping="h1" noWrap component="span">
@@ -43,37 +63,59 @@ export default function Blocks() {
       <Divider sx={{ marginBottom: "20px" }} />
 
       <TableContainer component={Paper}>
-        <Table aria-label="Blocos">
-          <TableHead>
-            <TableRow>
-              <TableCell>Bloco</TableCell>
-              <TableCell width="140" align="center">
-                Opções
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {blocks.map((block) => (
-              <TableRow key={block.id}>
-                <TableCell component="th" scope="row">
-                  {block.name}
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() =>
-                      axios.delete("http://localhost:3000/blocks" + block.id)
-                    }
-                  >
-                    <Delete />
-                  </IconButton>
-                  <IconButton aria-label="edit"></IconButton>
+        <>
+          <Table aria-label="Blocos">
+            <TableHead>
+              <TableRow>
+                <TableCell>Bloco</TableCell>
+                <TableCell width="140" align="center">
+                  Opções
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {blocks.length > 0 ? (
+                blocks.map((block) => (
+                  <TableRow key={block.id}>
+                    <TableCell component="th" scope="row">
+                      {block.name}
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => handleDelete(block)}
+                      >
+                        <Delete />
+                      </IconButton>
+
+                      <IconButton aria-label="edit">
+                        <Edit />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <Alert severity="warning">
+                  <AlertTitle>Sem Informações</AlertTitle>
+                  Não foram encontrados blocos, cadastre por favor!
+                </Alert>
+              )}
+            </TableBody>
+          </Table>
+        </>
       </TableContainer>
+
+      <ConfirmationDialog
+        id={`delete-${deleteOptions.blockId}`}
+        title="Excluir"
+        confirmButtonText="Excluir"
+        keepMounted
+        open={deleteOptions.show}
+        onClose={handleDeleteCallBack}
+      >
+        Deseja realmente excluir o item{" "}
+        <strong>{deleteOptions.itemDescription}</strong>
+      </ConfirmationDialog>
 
       <Fab
         color="primary"
