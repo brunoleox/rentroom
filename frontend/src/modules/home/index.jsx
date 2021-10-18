@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 export default function Home() {
   return (
   
-      <Typography variant="h6" variantMapping="h1">
+      <Typography variant="h6" variantMapping="h1" >
         Home
       </Typography>
   );

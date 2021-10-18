@@ -26,7 +26,6 @@ import {
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-
 const drawerWidth = 240;
 
 const headersData = [
@@ -124,7 +123,7 @@ export default function PersistentDrawerLeft(props) {
           >
             <Menu />
           </IconButton>
-          <Typography variant="h6" variantMapping="h1" noWrap component="div">
+          <Typography id="title" variant="h6" variantMapping="h1" noWrap component="label">
             Rent Room
           </Typography>
         </Toolbar>
@@ -143,9 +142,7 @@ export default function PersistentDrawerLeft(props) {
         open={open}
       >
         <DrawerHeader>
-          <Typography variant="h6" component="div">
-            Rent Room
-          </Typography>
+          
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
@@ -153,15 +150,10 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {headersData.map(({ label, icon, to }) => (
-           
-              <ListItem
-                button={true}
-                key={label}
-                {...{ to, component: Link }}
-              >
-                <ListItemIcon>{icon}</ListItemIcon>
-                <ListItemText primary={label} />
-              </ListItem>
+            <ListItem button={true} key={label} {...{ to, component: Link }}>
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText primary={label} />
+            </ListItem>
           ))}
         </List>
         <Divider />
